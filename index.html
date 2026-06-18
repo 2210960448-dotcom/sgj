@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沈高杰 | 生物技术 · 实验员</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ========== Reset & Base ========== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a1a;--bg-alt:#0f0f25;--bg-card:rgba(255,255,255,0.03);
+  --border-card:rgba(255,255,255,0.06);
+  --accent:#00d4ff;--accent2:#7c3aed;--accent-glow:rgba(0,212,255,0.15);
+  --text:#fff;--text2:rgba(255,255,255,0.75);--text3:rgba(255,255,255,0.4);
+  --nav-h:64px;--sec-pad:80px 24px;
+  --font-sans:'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','Fira Code',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
+.scroll-container{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory}
+.section{min-height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:var(--sec-pad);position:relative;overflow:hidden}
+.section-inner{width:100%;max-width:1100px;z-index:1}
+
+/* ========== Navigation ========== */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 32px;transition:background .35s,box-shadow .35s,backdrop-filter .35s}
+.navbar.scrolled{background:rgba(10,10,26,0.85);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(255,255,255,0.06)}
+.nav-logo{font-weight:700;font-size:1.15rem;letter-spacing:-0.02em;color:var(--text);text-decoration:none}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{padding:8px 16px;border-radius:8px;font-size:0.875rem;color:var(--text2);text-decoration:none;transition:color .25s,background .25s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:rgba(255,255,255,0.06)}
+.nav-links a.active{color:var(--accent)}
+.lang-toggle{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text2);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.8rem;font-family:var(--font-sans);transition:all .3s;margin-left:12px}
+.lang-toggle:hover{background:rgba(0,212,255,0.12);border-color:var(--accent);color:var(--accent)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.nav-right{display:flex;align-items:center}
+
+/* ========== Hero ========== */
+#hero{text-align:center;flex-direction:column}
+#hero canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.hero-content{position:relative;z-index:2}
+.hero-badge{display:inline-block;padding:6px 18px;border-radius:100px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);font-size:0.85rem;color:var(--accent);margin-bottom:24px;letter-spacing:0.3px}
+.hero-name{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:800;line-height:1.05;margin-bottom:16px;letter-spacing:-0.03em}
+.hero-name span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-title{font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--text2);font-weight:400;margin-bottom:12px;letter-spacing:0.02em}
+.hero-tagline{font-size:clamp(0.95rem,1.6vw,1.1rem);color:var(--text3);max-width:520px;margin:0 auto 40px}
+.scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text3);font-size:0.75rem;animation:bounce 2s infinite}
+.scroll-indicator .arrow{width:20px;height:20px;border-right:2px solid var(--text3);border-bottom:2px solid var(--text3);transform:rotate(45deg);opacity:0.6}
+@keyframes bounce{0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-8px)}60%{transform:translateX(-50%) translateY(-4px)}}
+
+/* ========== Section Headers ========== */
+.section-label{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;font-weight:500}
+.section-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;margin-bottom:48px;letter-spacing:-0.02em}
+.section-title::after{content:'';display:block;width:48px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin-top:12px;border-radius:2px}
+
+/* ========== About ========== */
+.about-grid{display:grid;grid-template-columns:240px 1fr;gap:48px;align-items:start}
+.about-avatar{width:200px;height:200px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700;color:#fff;margin:0 auto;position:relative}
+.about-avatar::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,255,255,0.08)}
+.about-text{font-size:1.05rem;color:var(--text2);max-width:620px}
+.about-text p{margin-bottom:16px}
+
+/* ========== Experience (Timeline) ========== */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);border-radius:1px}
+.timeline-item{position:relative;margin-bottom:40px;padding-left:24px}
+.timeline-item:last-child{margin-bottom:0}
+.timeline-dot{position:absolute;left:-29px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline-date{font-size:0.8rem;color:var(--accent);font-weight:500;margin-bottom:4px;letter-spacing:0.3px}
+.timeline-company{font-size:1.15rem;font-weight:600;margin-bottom:2px}
+.timeline-role{font-size:0.9rem;color:var(--text2);margin-bottom:8px}
+.timeline-desc{font-size:0.9rem;color:var(--text3);line-height:1.6;max-width:560px}
+
+/* ========== Education ========== */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.edu-card{padding:28px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-card);transition:border-color .3s,transform .3s}
+.edu-card:hover{border-color:rgba(0,212,255,0.2);transform:translateY(-2px)}
+.edu-card .date{font-size:0.8rem;color:var(--accent);margin-bottom:6px}
+.edu-card .degree{font-size:1.1rem;font-weight:600;margin-bottom:4px}
+.edu-card .school{font-size:0.9rem;color:var(--text2)}
+
+/* ========== Skills ========== */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px}
+.skill-group h3{font-size:1rem;font-weight:600;margin-bottom:20px;color:var(--text2)}
+.skill-item{margin-bottom:18px}
+.skill-item:last-child{margin-bottom:0}
+.skill-header{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:6px}
+.skill-name{color:var(--text)}.skill-pct{color:var(--accent);font-weight:500}
+.skill-bar{height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.skill-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.2s cubic-bezier(0.22,1,0.36,1);width:0%}
+.skill-fill.animate{width:var(--pct)}
+
+/* ========== Projects ========== */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.project-card{padding:28px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-card);transition:all .4s;cursor:default;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .4s}
+.project-card:hover::before{opacity:1}
+.project-card:hover{border-color:rgba(0,212,255,0.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.project-name{font-size:1.1rem;font-weight:600;margin-bottom:6px}
+.project-desc{font-size:0.88rem;color:var(--text3);margin-bottom:14px;line-height:1.6}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px}
+.project-tags span{padding:3px 10px;border-radius:100px;font-size:0.72rem;background:rgba(0,212,255,0.08);color:var(--accent);border:1px solid rgba(0,212,255,0.1)}
+
+/* ========== Contact ========== */
+#contact .section-inner{text-align:center}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;max-width:700px;margin:0 auto 40px}
+.contact-item{padding:24px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border-card);transition:border-color .3s}
+.contact-item:hover{border-color:rgba(0,212,255,0.2)}
+.contact-item .icon{font-size:1.5rem;margin-bottom:8px;display:block}
+.contact-item .label{font-size:0.78rem;color:var(--text3);margin-bottom:4px}
+.contact-item .value{font-size:0.95rem;color:var(--text)}
+.social-links{display:flex;justify-content:center;gap:16px;margin-top:8px}
+.social-links a{width:44px;height:44px;border-radius:50%;border:1px solid var(--border-card);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:1.1rem;text-decoration:none;transition:all .35s}
+.social-links a:hover{background:rgba(0,212,255,0.1);border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.footer-text{margin-top:48px;font-size:0.8rem;color:var(--text3)}
+
+/* ========== Animations ========== */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(0.22,1,0.36,1),transform .8s cubic-bezier(0.22,1,0.36,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}.reveal-delay-2{transition-delay:.2s}.reveal-delay-3{transition-delay:.3s}.reveal-delay-4{transition-delay:.4s}.reveal-delay-5{transition-delay:.5s}
+
+/* ========== Responsive ========== */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;text-align:center}.about-text{max-width:100%}
+  .about-avatar{margin-bottom:16px}
+}
+@media(max-width:768px){
+  :root{--sec-pad:64px 20px}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(10,10,26,0.95);backdrop-filter:blur(20px);flex-direction:column;padding:16px;gap:2px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 16px;font-size:1rem}
+  .hamburger{display:flex}
+  .navbar{padding:0 20px}
+  .section-title{margin-bottom:32px}
+  .project-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .timeline{padding-left:24px}
+  .timeline-dot{left:-21px}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a href="#hero" class="nav-logo" data-i18n="nav-brand"><span>S</span>hen Gaojie</a>
+  <div style="display:flex;align-items:center">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" data-section="hero" data-i18n="nav-home">首页</a></li>
+      <li><a href="#about" data-section="about" data-i18n="nav-about">关于</a></li>
+      <li><a href="#experience" data-section="experience" data-i18n="nav-exp">经历</a></li>
+      <li><a href="#education" data-section="education" data-i18n="nav-edu">教育</a></li>
+      <li><a href="#skills" data-section="skills" data-i18n="nav-skills">技能</a></li>
+      <li><a href="#projects" data-section="projects" data-i18n="nav-projects">项目</a></li>
+      <li><a href="#contact" data-section="contact" data-i18n="nav-contact">联系</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle">EN</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="scroll-container" id="scrollContainer">
+
+<!-- ====== Hero ====== -->
+<section class="section" id="hero">
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge reveal active" data-i18n="hero-badge">全栈开发 / 5年经验</div>
+    <h1 class="hero-name reveal active" style="transition-delay:.1s"><span data-i18n="hero-name">李想</span></h1>
+    <p class="hero-title reveal active" style="transition-delay:.2s" data-i18n="hero-title">全栈开发工程师</p>
+    <p class="hero-tagline reveal active" style="transition-delay:.3s" data-i18n="hero-tagline">热爱用代码创造有价值的产品，专注于构建优雅、高性能的 Web 应用</p>
+  </div>
+  <div class="scroll-indicator">
+    <span data-i18n="scroll-hint">向下滚动</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ====== About ====== -->
+<section class="section" id="about" style="background:var(--bg-alt)">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="about-label">关于我</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="about-title">了解我的故事</h2>
+    <div class="about-grid">
+      <div class="about-avatar reveal reveal-delay-2">SGJ</div>
+      <div class="about-text reveal reveal-delay-3">
+        <p data-i18n="about-p1">你好！我是李想，一名热爱技术的全栈开发工程师，拥有 5 年 Web 开发经验。我擅长从前端到后端的全链路开发，尤其热衷于构建富有交互体验的用户界面和可扩展的后端架构。</p>
+        <p data-i18n="about-p2">我相信优秀的技术来自对细节的执着和对用户体验的深刻理解。工作之余，我喜欢探索新的技术趋势，参与开源项目，偶尔也会写写技术博客分享自己的心得。</p>
+        <p data-i18n="about-p3">目前我在寻找新的机会，希望能加入一个充满创造力的团队，一起打造有意义的产品。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Experience ====== -->
+<section class="section" id="experience">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="exp-label">工作经历</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="exp-title">职业历程</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date" data-i18n="exp1-date">2022 - 至今</div>
+        <div class="timeline-company" data-i18n="exp1-company">星辰科技 · 高级全栈工程师</div>
+        <div class="timeline-role" data-i18n="exp1-role">负责核心产品的前后端架构设计与开发</div>
+        <div class="timeline-desc" data-i18n="exp1-desc">主导了公司 SaaS 平台的架构升级，使用 React + Node.js 技术栈，将系统响应时间降低 40%，并带领 3 人团队完成多个关键模块交付。</div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date" data-i18n="exp2-date">2020 - 2022</div>
+        <div class="timeline-company" data-i18n="exp2-company">云帆互动 · 前端开发工程师</div>
+        <div class="timeline-role" data-i18n="exp2-role">负责 Web 端产品开发和性能优化</div>
+        <div class="timeline-desc" data-i18n="exp2-desc">参与构建大型数据可视化平台，基于 Vue 3 + TypeScript 重构了核心模块，优化首屏加载性能，实现 Lighthouse 评分从 45 提升至 92。</div>
+      </div>
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date" data-i18n="exp3-date">2019 - 2020</div>
+        <div class="timeline-company" data-i18n="exp3-company">极光数字 · 初级开发工程师</div>
+        <div class="timeline-role" data-i18n="exp3-role">参与内部工具和客户项目开发</div>
+        <div class="timeline-desc" data-i18n="exp3-desc">使用 React 和 Django 开发了多个客户项目，积累了全栈开发经验，并建立了完整的 CI/CD 流程，大幅提高了团队交付效率。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Education ====== -->
+<section class="section" id="education" style="background:var(--bg-alt)">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="edu-label">教育背景</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="edu-title">学术经历</h2>
+    <div class="edu-grid">
+      <div class="edu-card reveal reveal-delay-1">
+        <div class="date" data-i18n="edu1-date">2016 - 2019</div>
+        <div class="degree" data-i18n="edu1-degree">计算机科学与技术 · 硕士</div>
+        <div class="school" data-i18n="edu1-school">上海交通大学</div>
+      </div>
+      <div class="edu-card reveal reveal-delay-2">
+        <div class="date" data-i18n="edu2-date">2012 - 2016</div>
+        <div class="degree" data-i18n="edu2-degree">软件工程 · 学士</div>
+        <div class="school" data-i18n="edu2-school">浙江大学</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Skills ====== -->
+<section class="section" id="skills">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="skills-label">专业技能</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="skills-title">技术栈</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal reveal-delay-1">
+        <h3 data-i18n="skills-cat-frontend">分子生物学实验</h3>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">PCR / 凝胶电泳</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:92%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">载体构建 / 引物设计</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:85%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">蛋白表达 / 分离纯化</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">农杆菌转化 / 亚细胞定位</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:88%"></div></div></div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <h3 data-i18n="skills-cat-backend">生物信息学分析</h3>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">Linux 数据分析</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">转录组 / 代谢组分析</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:80%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">GWAS / WGCNA</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:82%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">UPLC-MS/MS 数据分析</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:75%"></div></div></div>
+      </div>
+      <div class="skill-group reveal reveal-delay-3">
+        <h3 data-i18n="skills-cat-tools">荣誉与认证</h3>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">浙江省政府奖学金</span><span class="skill-pct">2024</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:78%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">校优秀一等奖</span><span class="skill-pct">2024</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:72%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">CET4 / CET6</span><span class="skill-pct">通过</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span class="skill-name">计算机二级 Office</span><span class="skill-pct">已获</span></div><div class="skill-bar"><div class="skill-fill" style="--pct:70%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Projects ====== -->
+<section class="section" id="projects" style="background:var(--bg-alt)">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="proj-label">项目作品</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="proj-title">精选项目</h2>
+    <div class="project-grid">
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-name" data-i18n="proj1-name">智联 CRM 平台</div>
+        <div class="project-desc" data-i18n="proj1-desc">面向中小企业的智能客户管理系统，支持销售漏斗追踪、数据分析仪表盘和自动化工作流引擎，服务超过 200 家企业客户。</div>
+        <div class="project-tags"><span>多组学</span><span>GWAS</span><span>WGCNA</span><span>UPLC-MS/MS</span></div>
+      </div>
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-name" data-i18n="proj2-name">流⻛数据可视化平台</div>
+        <div class="project-desc" data-i18n="proj2-desc">大屏实时数据可视化系统，支持多种图表类型、拖拽式布局和实时数据推送，用于智慧城市和工业监控场景。</div>
+        <div class="project-tags"><span>DNA提取</span><span>载体构建</span><span>PCR</span><span>凝胶电泳</span></div>
+      </div>
+      <div class="project-card reveal reveal-delay-3">
+        <div class="project-name" data-i18n="proj3-name">OpenAPI 开发者门户</div>
+        <div class="project-desc" data-i18n="proj3-desc">开发者 API 文档与测试平台，提供交互式 API 调试、自动生成 SDK、用量分析和开发者社区功能。</div>
+        <div class="project-tags"><span>文献调研</span><span>项目设计</span><span>材料撰写</span><span>汇报PPT</span></div>
+      </div>
+      <div class="project-card reveal reveal-delay-4" style="display:none">
+        <div class="project-name" data-i18n="proj4-name">笔记星球</div>
+        <div class="project-desc" data-i18n="proj4-desc">开源 Markdown 笔记应用，支持双向链接、图谱视图、实时协作编辑和离线存储，GitHub 3000+ Star。</div>
+        <div class="project-tags"><span>黄精深加工</span><span>市场调研</span><span>封面设计</span><span>申报书</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Contact ====== -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="reveal"><span class="section-label" data-i18n="contact-label">联系方式</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-i18n="contact-title">保持联系</h2>
+    <div class="contact-grid">
+      <div class="contact-item reveal reveal-delay-1">
+        <span class="icon">✉</span>
+        <div class="label" data-i18n="contact-email-label">邮箱</div>
+        <div class="value">2210960448@qq.com</div>
+      </div>
+      <div class="contact-item reveal reveal-delay-2">
+        <span class="icon">📞</span>
+        <div class="label" data-i18n="contact-phone-label">电话</div>
+        <div class="value">188-6878-4890</div>
+      </div>
+      <div class="contact-item reveal reveal-delay-3">
+        <span class="icon">📍</span>
+        <div class="label" data-i18n="contact-location-label">位置</div>
+        <div class="value" data-i18n="contact-location">中国 · 杭州</div>
+      </div>
+    </div>
+    <div class="social-links reveal reveal-delay-4">
+      <a href="#" target="_blank" title="GitHub">GH</a>
+      <a href="#" target="_blank" title="邮箱">@</a>
+      <a href="#" target="_blank" title="微信">💬</a>
+      <a href="#" target="_blank" title="QQ">💻</a>
+    </div>
+    <div class="footer-text reveal reveal-delay-5">
+      <span data-i18n="footer">© 2026 李想 · 用心构建每一个像素</span>
+    </div>
+  </div>
+</section>
+
+</div><!-- /scroll-container -->
+
+<script>
+// ========== Translations ==========
+const i18n = {
+  zh: {
+    'nav-brand':'沈高杰',
+    'nav-home':'首页','nav-about':'关于','nav-exp':'科研','nav-edu':'教育',
+    'nav-skills':'技能','nav-projects':'项目','nav-contact':'联系',
+    'hero-badge':'生物技术 / 本科在读',
+    'hero-name':'沈高杰','hero-title':'实验员（求职意向）',
+    'hero-tagline':'热爱生命科学研究，具备扎实的分子生物学实验技能与多组学数据分析能力',
+    'scroll-hint':'向下滚动',
+    'about-label':'关于我','about-title':'个人简介',
+    'about-p1':'你好！我是沈高杰，浙江农林大学生物技术专业本科生，GPA 专业排名 2/61。具备扎实的分子生物学实验技能和生物信息学分析能力，对植物代谢工程与基因功能研究充满热情。',
+    'about-p2':'在校期间参与三项科研竞赛项目，从实验设计到数据分析再到论文撰写，积累了完整的科研实践经验。熟练掌握 PCR、载体构建、蛋白表达纯化、农杆菌介导的毛状根转化等核心实验技术。',
+    'about-p3':'细心踏实，逻辑清晰，善于从数据中发现规律。目前正积极寻找实验员岗位，希望将所学应用于实际科研工作中。',
+    'exp-label':'科研经历','exp-title':'竞赛与科研',
+    'exp1-date':'2024.12 - 2025.05','exp1-company':'浙江省大学生生命科学竞赛 · 多花黄精项目',
+    'exp1-role':'项目主导人 · 实验设计、数据采集及机制解析',
+    'exp1-desc':'构建162份种质资源的转录组-代谢组关联分析模型；通过GWAS定位3个UGT85A家族基因，利用WGCNA解析共表达网络；完成农杆菌介导的毛状根过表达，结合UPLC-MS/MS验证基因功能，提出"UGT85A家族协同调控甾体皂苷糖基化"假说。获省赛三等奖。',
+    'exp2-date':'2023.12 - 2024.05','exp2-company':'全国大学生生命科学竞赛 · 铁皮石斛项目',
+    'exp2-role':'分子实验与文献综述',
+    'exp2-desc':'参与《铁皮石斛DcMYC2b-Dc4CLL8介导的白绢病抗性机制》研究。承担DNA提取、载体构建等分子实验辅助工作及文献综述撰写，掌握PCR、凝胶电泳等基础分子操作技术。获全国三等奖。',
+    'exp3-date':'2023.09 - 2023.12','exp3-company':'校"挑战杯"竞赛 · 液体黄精项目',
+    'exp3-role':'项目框架设计与材料整合',
+    'exp3-desc':'负责项目任务书封面设计、材料搜集整理及申报书语言优化。独立完成项目框架设计与可视化素材整合，优化申报文本逻辑性与学术规范性。获校赛二等奖。',
+    'edu-label':'教育背景','edu-title':'学术经历',
+    'edu1-date':'2022.09 - 至今','edu1-degree':'生物技术 · 本科','edu1-school':'浙江农林大学 · GPA 排名 2/61',
+    'edu2-date':'核心课程','edu2-degree':'成绩优异','edu2-school':'生物化学(90) 细胞生物学(92) 基因工程原理(93) 天然产物化学(93) 遗传学(93) 微生物学(90) 分子生物学(85) 生物信息学(90)',
+    'skills-label':'专业技能','skills-title':'实验技术与荣誉',
+    'skills-cat-frontend':'分子生物学实验','skills-cat-backend':'生物信息学分析','skills-cat-tools':'荣誉与认证',
+    'proj-label':'项目作品','proj-title':'科研项目',
+    'proj1-name':'多花黄精甾体皂苷合成关键酶鉴定',
+    'proj1-desc':'构建转录组-代谢组关联模型，GWAS定位UGT85A基因家族，WGCNA共表达网络解析，农杆菌介导毛状根过表达及UPLC-MS/MS验证。',
+    'proj2-name':'铁皮石斛白绢病抗性机制研究',
+    'proj2-desc':'探究DcMYC2b-Dc4CLL8介导的抗性通路，开展DNA提取、载体构建、基因表达验证等分子实验。',
+    'proj3-name':'液体黄精——黄精深加工与高效利用',
+    'proj3-desc':'系统梳理黄精深加工技术背景与市场前景，完成项目框架设计与可视化素材整合，优化申报文本规范。',
+    'proj4-name':'','proj4-desc':'',
+    'contact-label':'联系方式','contact-title':'保持联系',
+    'contact-email-label':'邮箱','contact-phone-label':'电话','contact-location-label':'位置',
+    'contact-location':'中国 · 杭州',
+    'footer':'© 2026 沈高杰 · 专注生命科学研究'
+  },
+  en: {
+    'nav-brand':'Shen Gaojie',
+    'nav-home':'Home','nav-about':'About','nav-exp':'Research','nav-edu':'Education',
+    'nav-skills':'Skills','nav-projects':'Projects','nav-contact':'Contact',
+    'hero-badge':'Biotechnology / Undergraduate',
+    'hero-name':'Shen Gaojie','hero-title':'Lab Technician (Job Target)',
+    'hero-tagline':'Passionate about life science research, with solid molecular biology skills and multi-omics data analysis capabilities.',
+    'scroll-hint':'Scroll Down',
+    'about-label':'About Me','about-title':'Profile',
+    'about-p1':"Hi! I'm Shen Gaojie, a Biotechnology undergraduate at Zhejiang A&F University, ranking 2/61 in GPA. I have strong molecular biology lab skills and bioinformatics analysis abilities, passionate about plant metabolic engineering and gene function research.",
+    'about-p2':'During university, I participated in three research competition projects, gaining complete experience from experimental design to data analysis to thesis writing. Proficient in PCR, vector construction, protein expression and purification, and Agrobacterium-mediated hairy root transformation.',
+    'about-p3':'Detail-oriented, methodical, and skilled at discovering patterns in data. Currently seeking a lab technician position to apply my knowledge in practical research work.',
+    'exp-label':'Experience','exp-title':'Research & Competitions',
+    'exp1-date':'2024.12 - 2025.05','exp1-company':'Zhejiang Life Sci. Competition · P. cyrtonema',
+    'exp1-role':'Lead · Experimental design & data analysis',
+    'exp1-desc':'Built transcriptome-metabolome association models across 162 germplasm resources. Mapped 3 UGT85A family genes via GWAS, analyzed co-expression networks via WGCNA. Validated gene function through hairy root overexpression and UPLC-MS/MS.',
+    'exp2-date':'2023.12 - 2024.05','exp2-company':'National Life Sci. Competition · D. officinale',
+    'exp2-role':'Molecular experiments & literature review',
+    'exp2-desc':'Participated in research on DcMYC2b-Dc4CLL8-mediated southern blight resistance. Performed DNA extraction, vector construction, and literature review. Mastered PCR and gel electrophoresis.',
+    'exp3-date':'2023.09 - 2023.12','exp3-company':'University Challenge Cup · Polygonatum',
+    'exp3-role':'Project design & material integration',
+    'exp3-desc':'Designed project cover, collected materials, optimized application language. Completed project framework and visual asset integration.',
+    'edu-label':'Education','edu-title':'Academic Background',
+    'edu1-date':'2022.09 - Present','edu1-degree':'B.Sc. Biotechnology','edu1-school':'Zhejiang A&F University · GPA Rank 2/61',
+    'edu2-date':'Core Courses','edu2-degree':'High Scores','edu2-school':'Biochem(90) Cell Biol(92) Genetic Eng(93) Nat Prod Chem(93) Genetics(93) Microbiology(90) Mol Biol(85) Bioinformatics(90)',
+    'skills-label':'Skills','skills-title':'Techniques & Honors',
+    'skills-cat-frontend':'Molecular Biology','skills-cat-backend':'Bioinformatics','skills-cat-tools':'Honors & Certifications',
+    'proj-label':'Projects','proj-title':'Research Projects',
+    'proj1-name':'Steroidal Saponin Key Enzyme Identification',
+    'proj1-desc':'Transcriptome-metabolome association modeling, GWAS mapping of UGT85A, WGCNA co-expression analysis, hairy root overexpression and UPLC-MS/MS validation.',
+    'proj2-name':'Southern Blight Resistance Mechanism',
+    'proj2-desc':'Investigated DcMYC2b-Dc4CLL8-mediated resistance pathway using DNA extraction, vector construction, and gene expression assays.',
+    'proj3-name':'Polygonatum Deep Processing',
+    'proj3-desc':'Systematically reviewed deep-processing technologies. Completed project framework design and visual asset integration.',
+    'proj4-name':'','proj4-desc':'',
+    'contact-label':'Contact','contact-title':'Get In Touch',
+    'contact-email-label':'Email','contact-phone-label':'Phone','contact-location-label':'Location',
+    'contact-location':'Hangzhou, China',
+    'footer':'© 2026 Shen Gaojie · Dedicated to life sciences'
+  }
+};
+let currentLang = 'zh';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.getElementById('langToggle').textContent = lang === 'zh' ? 'EN' : '中';
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+}
+
+document.getElementById('langToggle').addEventListener('click', () => {
+  setLang(currentLang === 'zh' ? 'en' : 'zh');
+});
+
+// ========== Particle Canvas ==========
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouseX = -1000, mouseY = -1000;
+let animId;
+
+function resizeCanvas() {
+  const hero = document.getElementById('hero');
+  canvas.width = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+}
+
+class Particle {
+  constructor() { this.reset() }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.6;
+    this.vy = (Math.random() - 0.5) * 0.6;
+    this.r = Math.random() * 2 + 0.5;
+    this.alpha = Math.random() * 0.4 + 0.1;
+  }
+  update() {
+    const dx = mouseX - this.x, dy = mouseY - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 200) {
+      this.vx -= dx / 2000;
+      this.vy -= dy / 2000;
+    }
+    this.vx += (Math.random() - 0.5) * 0.02;
+    this.vy += (Math.random() - 0.5) * 0.02;
+    this.vx *= 0.98; this.vy *= 0.98;
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.reset();
+    if (this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,212,255,${this.alpha})`;
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  const count = Math.min(80, Math.floor(canvas.width * canvas.height / 12000));
+  particles = Array.from({length: count}, () => new Particle());
+}
+
+function drawConnections() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(0,212,255,${0.06 * (1 - dist / 150)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  drawConnections();
+  animId = requestAnimationFrame(animateParticles);
+}
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+  mouseY = e.clientY - rect.top;
+});
+canvas.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
+
+resizeCanvas();
+initParticles();
+animateParticles();
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  initParticles();
+});
+
+// ========== Parallax ==========
+const scrollContainer = document.getElementById('scrollContainer');
+const heroSection = document.getElementById('hero');
+let ticking = false;
+
+scrollContainer.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrollY = scrollContainer.scrollTop;
+      // Hero parallax
+      const heroContent = heroSection.querySelector('.hero-content');
+      if (scrollY < heroSection.offsetHeight) {
+        heroContent.style.transform = `translateY(${scrollY * 0.25}px)`;
+        heroContent.style.opacity = 1 - scrollY / heroSection.offsetHeight * 0.5;
+      }
+      // Navbar background
+      document.getElementById('navbar').classList.toggle('scrolled', scrollY > 80);
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+// ========== Intersection Observer (Reveal + Nav) ==========
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('active');
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// Nav active section
+const sectionIds = ['hero','about','experience','education','skills','projects','contact'];
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const sectionObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.dataset.section === entry.target.id));
+    }
+  });
+}, { threshold: 0.4 });
+
+sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) sectionObs.observe(el);
+});
+
+// ========== Hamburger ==========
+const hamburger = document.getElementById('hamburger');
+const navLinksContainer = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navLinksContainer.classList.toggle('open');
+});
+navLinksContainer.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navLinksContainer.classList.remove('open');
+  });
+});
+
+// ========== Skill Bar Animation ==========
+const skillObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.classList.add('animate');
+      });
+      skillObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.skill-group').forEach(g => skillObs.observe(g));
+
+// ========== Init Language ==========
+setLang('zh');
+</script>
+</body>
+</html>
